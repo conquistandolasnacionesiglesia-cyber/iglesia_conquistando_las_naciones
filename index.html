@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conquistando Las Naciones - Oficial</title>
+    <title>Conquistando Las Nations - Oficial</title>
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -17,12 +17,61 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: radial-gradient(circle, #051937 0%, #000000 100%);
+            background: radial-gradient(circle at 50% 30%, #051937 0%, #000000 100%);
             margin: 0;
             color: var(--white);
             display: flex;
             justify-content: center;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.05) 0%, rgba(0,0,0,0) 70%);
+            filter: blur(30px);
+        }
+
+        .orb-1 { width: 350px; height: 350px; top: 15%; left: 10%; }
+        .orb-2 { width: 450px; height: 450px; bottom: 15%; right: 5%; background: radial-gradient(circle, rgba(5, 25, 55, 0.4) 0%, rgba(0,0,0,0) 70%); }
+
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .gold-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255,223,135,1) 0%, rgba(197,160,89,0.4) 60%, rgba(0,0,0,0) 100%);
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 6px rgba(197, 160, 89, 0.3);
+            animation: floatUp linear infinite;
+            will-change: transform, opacity; 
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) translateX(0) scale(0.5); opacity: 0; }
+            10% { opacity: var(--max-opacity); }
+            90% { opacity: var(--max-opacity); }
+            100% { transform: translateY(-5vh) translateX(var(--drift)) scale(1.1); opacity: 0; }
         }
 
         .container {
@@ -30,9 +79,95 @@
             max-width: 420px;
             padding: 40px 20px;
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
-        /* DISEÑO DEL LOGO */
+        .menu-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 1.3rem;
+            color: var(--gold);
+            background: rgba(5, 25, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        .menu-icon:hover {
+            transform: scale(1.05);
+            border-color: var(--gold);
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            right: 0;
+            background-color: #030d1c;
+            overflow-x: hidden;
+            transition: 0.3s ease-out;
+            padding-top: 80px;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.7);
+            border-left: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .sidebar h3 {
+            padding: 10px 25px;
+            color: var(--gold);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        .sidebar a i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            color: var(--gold);
+            width: 25px;
+            text-align: center;
+        }
+
+        .sidebar a:hover {
+            color: var(--gold);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 30px;
+            color: var(--white);
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .sidebar .closebtn:hover {
+            color: var(--gold);
+            background: none;
+        }
+
         .logo-container {
             width: 130px;
             height: 130px;
@@ -58,12 +193,9 @@
             font-weight: 700;
         }
 
-        /* TARJETAS DE ENLACES Y HORARIOS */
         .link-card, .schedule-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #091e3e; 
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 15px;
             padding: 18px;
             margin-bottom: 12px;
@@ -71,11 +203,11 @@
             align-items: center;
             text-decoration: none;
             color: white;
-            transition: 0.3s ease;
+            transition: transform 0.2s ease, background-color 0.2s ease;
         }
 
         .link-card:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: #0d264f;
             border-color: var(--gold);
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -104,7 +236,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
+            z-index: 3000;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9);
             align-items: center;
@@ -126,6 +258,28 @@
     </style>
 </head>
 <body>
+
+<div class="ambient-glow">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+</div>
+<div id="particles-container"></div>
+
+<div class="menu-icon" onclick="openNav()">
+    <i class="fas fa-bars"></i>
+</div>
+
+<div id="mySidebar" class="sidebar">
+    <span class="closebtn" onclick="closeNav()">×</span>
+    
+    <h3>Atención de la App</h3>
+    <a href="https://api.whatsapp.com/send?phone=573238330541&text=Hola!%20Tengo%20un%20inconveniente%20con%20la%20aplicación%20de%20la%20iglesia..." target="_blank">
+        <i class="fas fa-exclamation-triangle"></i> Reportar Inconveniente
+    </a>
+    <a href="https://api.whatsapp.com/send?phone=573238330541&text=Hola!%20Me%20gustaría%20sugerir%20esta%20mejora%20para%20la%20aplicación..." target="_blank">
+        <i class="fas fa-lightbulb"></i> Sugerencias de Mejora
+    </a>
+</div>
 
 <div class="container">
     <div class="logo-container">
@@ -173,7 +327,7 @@
     </div>
 
     <div class="section-tag">Ubicación</div>
-    <a href="https://maps.google.com/?q=Calle+24+Sur+%239-21,+Barrio+20+de+Julio" target="_blank" class="link-card">
+    <a href="https://maps.google.com" target="_blank" class="link-card">
         <i class="fas fa-map-marked-alt"></i>
         <div class="text-group">
             <span>Sede Principal</span>
@@ -190,14 +344,60 @@
 
 <div id="myModal" class="modal">
     <span class="close-modal" onclick="closeModal()">×</span>
-    <img src="donacion.jpg.jpg" alt="Datos de Donación">
+    <img src="donacion.jpeg" alt="Datos de Donación">
 </div>
 
 <script>
     function openModal() { document.getElementById("myModal").style.display = "flex"; }
     function closeModal() { document.getElementById("myModal").style.display = "none"; }
+    
+    function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
+    function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+
     window.onclick = function(event) {
         if (event.target == document.getElementById("myModal")) { closeModal(); }
+    }
+
+    // Generador con baja carga de CPU
+    document.addEventListener("DOMContentLoaded", function() {
+        const container = document.getElementById("particles-container");
+        const particleCount = 20; 
+
+        for (let i = 0; i < particleCount; i++) {
+            createParticle(container);
+        }
+    });
+
+    function createParticle(container) {
+        const particle = document.createElement("div");
+        particle.classList.add("gold-particle");
+
+        const size = Math.random() * 2.5 + 1.5;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}vw`;
+
+        const duration = Math.random() * 15 + 20;
+        particle.style.animationDuration = `${duration}s`;
+
+        const delay = Math.random() * -35;
+        particle.style.animationDelay = `${delay}s`;
+
+        const maxOpacity = Math.random() * 0.3 + 0.15;
+        particle.style.setProperty('--max-opacity', maxOpacity);
+
+        const drift = (Math.random() * 40 - 20) + 'px';
+        particle.style.setProperty('--drift', drift);
+
+        container.appendChild(particle);
+
+        particle.addEventListener('animationiteration', () => {
+            particle.style.left = `${Math.random() * 100}vw`;
+            const newDuration = Math.random() * 15 + 20;
+            particle.style.animationDuration = `${newDuration}s`;
+            particle.style.setProperty('--max-opacity', Math.random() * 0.3 + 0.15);
+            particle.style.setProperty('--drift', (Math.random() * 40 - 20) + 'px');
+        });
     }
 </script>
 
